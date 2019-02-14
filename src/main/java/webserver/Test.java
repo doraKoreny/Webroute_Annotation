@@ -12,13 +12,13 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
-        server.createContext("/test", new MyHandler());
+        server.createContext("/another", new MyHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
     }
 
     static class MyHandler implements HttpHandler {
-        @Override
+
         public void handle(HttpExchange t) throws IOException {
             String response = "This is the response";
             t.sendResponseHeaders(200, response.length());
@@ -27,5 +27,9 @@ public class Test {
             os.close();
         }
     }
+
+
+
+
 
 }
