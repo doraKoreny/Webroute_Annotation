@@ -11,4 +11,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface WebRoute {
     public String path() default "/test";
+
+    FormSubmitEvent.MethodType method() default FormSubmitEvent.MethodType.GET;
 }
