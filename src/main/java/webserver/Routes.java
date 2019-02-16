@@ -2,18 +2,19 @@ package webserver;
 
 import com.dora.koreny.annot.WebRoute;
 
+import static javax.swing.text.html.FormSubmitEvent.MethodType.GET;
 import static javax.swing.text.html.FormSubmitEvent.MethodType.POST;
 
 public class Routes {
 
     @WebRoute
     public String test1() {
-        return "you are on test route";
+        return "you are on TEST route";
     }
 
     @WebRoute(path = "/another")
     public String test2() {
-        return "you are on another route";
+        return "you are on ANOTHER route";
     }
 
     @WebRoute(path = "/index")
@@ -21,8 +22,13 @@ public class Routes {
         return "you are on INDEX route";
     }
 
-    @WebRoute(path = "/users")
+    @WebRoute(method=POST, path = "/users")
     public String test4() {
-        return "you are on USERS route";
+        return "you sent a POST request to USERS route";
+    }
+
+    @WebRoute(path = "/users")
+    public String test5() {
+        return "you sent a GET request to USERS route";
     }
 }
