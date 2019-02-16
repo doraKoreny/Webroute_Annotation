@@ -13,29 +13,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyHandler implements HttpHandler {
-    Map<String, Method> mapRoutes = new HashMap<String, Method>();
+    Map<MapKey, Method> mapRoutesMethods = new HashMap<MapKey, Method>();
     Class<Routes> routesClass = Routes.class;
 
     public void fillMapRoutes () {
         for (Method method : routesClass.getMethods()) {
+            MapKey mapKey = new MapKey();
             if (method.isAnnotationPresent(WebRoute.class)) {
                 Annotation annotation = method.getAnnotation(WebRoute.class);
-                String annotValue = ((WebRoute) annotation).path();
-                mapRoutes.put(annotValue, method);
+                String pathValue = ((WebRoute) annotation).path();
+                String reqmethodValue = String.valueOf(((WebRoute) annotation).method());
+                mapKey.setPathKey(pathValue);
+                mapKey.setReqMethodKey(reqmethodValue);
+                mapRoutesMethods.put(mapKey, method);
             }
         }
     }
 
     public void handle(HttpExchange t) throws IOException {
         String requestedPath = String.valueOf(t.getRequestURI());
+        String requestMethod = t.getRequestMethod();
+        System.out.println(requestMethod);
         System.out.println(requestedPath);
         String response ="";
 
-        for (String annotValue : mapRoutes.keySet()) {
-            if (annotValue.equals(requestedPath)) {
-                Method method = mapRoutes.get(annotValue);
+        for (MapKey mapKey : mapRoutesMethods.keySet()) {
+            if (mapKey.getPathKey().equals(requestedPath) && mapKey.getReqMethodKey().equals(requestMethod)) {
+                Method method = mapRoutesMethods.get(mapKey);
                 try {
                     response = (String) method.invoke(routesClass.newInstance());
+                    break;
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
