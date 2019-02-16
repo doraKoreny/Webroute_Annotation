@@ -31,4 +31,9 @@ public class Routes {
     public String test5() {
         return "you sent a GET request to USERS route";
     }
+
+    @WebRoute(path = "/users/<userName")
+    public String test6(String userName) {
+        return "Welcome" + userName + "!";
+    }
 }
