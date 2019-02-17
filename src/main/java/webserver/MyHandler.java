@@ -18,13 +18,11 @@ public class MyHandler implements HttpHandler {
 
     public void fillMapRoutes () {
         for (Method method : routesClass.getMethods()) {
-            MapKey mapKey = new MapKey();
             if (method.isAnnotationPresent(WebRoute.class)) {
                 Annotation annotation = method.getAnnotation(WebRoute.class);
                 String pathValue = ((WebRoute) annotation).path();
                 String reqmethodValue = String.valueOf(((WebRoute) annotation).method());
-                mapKey.setPathKey(pathValue);
-                mapKey.setReqMethodKey(reqmethodValue);
+                MapKey mapKey = new MapKey(pathValue, reqmethodValue);
                 mapRoutesMethods.put(mapKey, method);
             }
         }
