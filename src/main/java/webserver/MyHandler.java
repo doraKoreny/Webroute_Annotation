@@ -41,11 +41,7 @@ public class MyHandler implements HttpHandler {
                 try {
                     response = (String) method.invoke(routesClass.newInstance());
                     break;
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
+                } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                     e.printStackTrace();
                 }
             }
